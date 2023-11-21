@@ -1,25 +1,31 @@
 import "./style.css";
+import { helloTasks, addTask, shareTaskList, shareProjectList } from "./tasks.js";
+import { helloDom, buildDom } from "./dom.js";
 
-console.log("index.js loaded")
+console.log("index.js loaded");
+helloTasks();
+helloDom();
 
+buildDom();
 
-const taskList = [];
+const addTaskHandler = (task, project, date) => {
+    addTask(task, project, date);
+    buildDom();
+};
 
-class task {
-    constructor(title, status) {
-        this.title = title;
-        this.status = status;
-        taskList.push(this)
-    }
+function getTasks () {
+    return shareTaskList();
 }
 
-new task("Buy groceries", false);
-new task("Cook dinner", false);
-console.log(taskList);
+function getProjects () {
+    return shareProjectList();
+}
 
-localStorage.setItem("taskList", JSON.stringify(taskList));
 
-const taskList2 = JSON.parse(localStorage.getItem("taskList"));
-console.log(taskList2);
-console.log(taskList2[0]);
-console.log(taskList2[1]);
+
+
+export { addTaskHandler, getTasks, getProjects };
+  
+  
+
+

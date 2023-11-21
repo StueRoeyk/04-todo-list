@@ -1,3 +1,181 @@
-body {
-    background-color: #1C1717;
+:root {
+
+/** CSS DARK THEME PRIMARY COLORS */ 
+--color-primary-100:  #b3072c;
+--color-primary-200:  #bf3740;
+--color-primary-300:  #cb5455;
+--color-primary-400:  #d66e6b;
+--color-primary-500:  #df8782;
+--color-primary-600:  #e89f9a;  
+
+/** CSS DARK THEME SURFACE COLORS */ 
+--color-surface-100:  #121212;
+--color-surface-200:  #282828;
+--color-surface-300:  #3f3f3f;
+--color-surface-400:  #575757;
+--color-surface-500:  #717171;
+--color-surface-600:  #8b8b8b;  
+
+/** Custom */
+--better-white: #fcfcfc;
+--plain-grey: #e3e3e3;
+              
 }
+
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: var(--color-surface-100);
+}
+
+#menu-bar {
+    padding: 30px;
+}
+
+#content {
+    padding: 0px 100px;
+    display: flex;
+    gap:20px;
+}
+
+
+#add-task-button {
+    background-color: var(--color-primary-300);
+    color: var(--color-surface-100);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.project-card {
+    background-color: var(--color-surface-200);
+    color: var(--better-white);
+    min-width: 250px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.project-card > h2 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--color-primary-500);
+    margin-bottom: 15px;
+}
+
+.task-card {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0px;
+    border-bottom: 1px solid var(--color-surface-600);
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+/* MODAL */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+  
+.modal {
+    position: relative;
+    /* width: 40%; */
+    margin: 0 auto;
+    background-color: var(--color-surface-200);
+    color: var(--better-white);
+    padding: 20px;
+    border-radius: 15px;
+    z-index: 11; 
+}
+  
+.modal-header {
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--better-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.btn-primary {
+    padding: 10px 10px;
+    box-sizing: border-box;
+    border: 1px dashed var(--color-surface-200);
+    background-color: var(--color-surface-200);
+    color: var(--better-white);
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    border: 1px dashed var(--color-primary-500);
+}
+  
+.modal-body {
+    padding: 20px;
+}
+  
+.modal-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: var(--color-primary-500);
+    color: var(--color-surface-100);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-input-div {
+    padding: 5px 5px 20px 5px;    
+}
+
+.modal-input-div > label {
+    padding-bottom: 5px;
+    display: block;
+}
+
+.modal-input-div > input {
+    height: 1.5rem;
+    padding: 0px 10px;
+    display: block;
+}
+
+
+.hidden {
+    display: none;
+}
+
+/* END MODAL! */
