@@ -6,6 +6,39 @@
     <title>To Dew</title>
 </head>
 <body>
+
+    <div class="modal-container hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Add New Task</h2><span class="error"></span>
+            <button class="btn btn-primary">X</button>
+          </div>
+          <div class="modal-body">
+            <form action="/" method="post">
+                <div class="modal-input-div">
+                    <label for="task">Task:</label>
+                    <input type="text" name="task" id="task">
+                </div>
+                <div class="modal-input-div">
+                    <label for="project">Project:</label>
+                    <input type="text" name="project" id="project" value="General Tasks">
+                </div>
+                <div class="modal-input-div">
+                    <label for="date">Due Date:</label>
+                    <input type="date" id="date" name="date" value="MM-DD-YYYY">
+                    
+                    <br>
+
+                </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-submit">Submit</button>
+          </div>
+        </div>
+    </div>
+    <div id="menu-bar"></div>
     <div id="content"></div>
 
 <script defer src="main.js"></script></body>
