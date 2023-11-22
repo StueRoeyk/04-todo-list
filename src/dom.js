@@ -261,6 +261,7 @@ function editTaskModal(task) {
     editButton.textContent = "Save";
     editButton.addEventListener('click', () => {
         editTaskHandler(oldTask, taskField.value, projectField.value, dateField.value);
+        closeModal();
     });
 
     const taskField = document.querySelector("#task");
