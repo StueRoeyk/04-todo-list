@@ -1,12 +1,20 @@
 :root {
 
 /** CSS DARK THEME PRIMARY COLORS */ 
---color-primary-100:  #b3072c;
+--color-primary-100:  #4caf50;
+--color-primary-200:  #63b863;
+--color-primary-300:  #79c176;
+--color-primary-400:  #8dca89;
+--color-primary-500:  #a0d39c;
+--color-primary-600:  #b4dcb0;  
+
+
+/* --color-primary-100:  #b3072c;
 --color-primary-200:  #bf3740;
 --color-primary-300:  #cb5455;
 --color-primary-400:  #d66e6b;
 --color-primary-500:  #df8782;
---color-primary-600:  #e89f9a;  
+--color-primary-600:  #e89f9a;   */
 
 /** CSS DARK THEME SURFACE COLORS */ 
 --color-surface-100:  #121212;
@@ -17,8 +25,9 @@
 --color-surface-600:  #8b8b8b;  
 
 /** Custom */
---better-white: #fcfcfc;
---plain-grey: #e3e3e3;
+--color-better-white: #fcfcfc;
+--color-plain-grey: #e3e3e3;
+--color-dew: #6bc8f4;
               
 }
 
@@ -44,7 +53,7 @@ body {
 
 
 #add-task-button {
-    background-color: var(--color-primary-300);
+    background-color: var(--color-dew);
     color: var(--color-surface-100);
     width: 60px;
     height: 60px;
@@ -59,8 +68,9 @@ body {
 
 .project-card {
     background-color: var(--color-surface-200);
-    color: var(--better-white);
-    min-width: 250px;
+    color: var(--color-better-white);
+    min-width: 300px;
+    max-width: 600px;
     min-height: 150px;
     padding: 20px;
     border-radius: 15px;
@@ -79,6 +89,10 @@ body {
     padding: 5px 0px;
     border-bottom: 1px solid var(--color-surface-600);
     margin-bottom: 5px;
+}
+
+.task-label {
+    padding-right: 20px;
 }
 
 .task-menu {
@@ -121,7 +135,7 @@ body {
     position: relative;
     margin: 0 auto;
     background-color: var(--color-surface-200);
-    color: var(--better-white);
+    color: var(--color-better-white);
     padding: 20px;
     border-radius: 15px;
     z-index: 11; 
@@ -129,7 +143,7 @@ body {
   
 .modal-header {
     padding: 10px 0px 20px 0px;
-    border-bottom: 1px solid var(--better-white);
+    border-bottom: 1px solid var(--color-better-white);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -145,7 +159,7 @@ body {
     box-sizing: border-box;
     border: 1px dashed var(--color-surface-200);
     background-color: var(--color-surface-200);
-    color: var(--better-white);
+    color: var(--color-better-white);
     font-size: 1.25rem;
     font-weight: bold;
     cursor: pointer;
