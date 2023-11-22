@@ -1,5 +1,6 @@
 import { getTasks, getProjects, addTaskHandler, deleteTaskHandler } from "./index.js";
 import Delete from "./images/delete.svg";
+import Options from "./images/options.svg";
 const { format, parseISO } = require('date-fns');
 
 
@@ -242,6 +243,10 @@ function addTaskModal () {
     })
 }
 
+function editTaskModal() {
+    console.log("Editing the task!");
+}
+
 function closeModal() {
     const modalHook = document.querySelector("#modal-hook");
     while (modalHook.firstChild) {
@@ -251,40 +256,6 @@ function closeModal() {
 
 // END BUILD GENERAL MODAL
 
-
-// ------ ADD TASK MODAL
-
-/* const modalContainer = document.querySelector('.modal-container');
-const modalCloseButton = document.querySelector('.btn-primary');
-const modalSubmitButton = document.querySelector(".btn-submit");
-const task = document.querySelector("#task");
-const project = document.querySelector("#project");
-const date = document.querySelector("#date");
-
-modalCloseButton.addEventListener('click', () => {
-    closeModal();
-});
-
-function closeModal() {
-    modalContainer.classList.add('hidden');
-}
-
-modalSubmitButton.addEventListener("click", () => {
-    if (task.value === "" || project.value === "") {
-        console.log("Error");
-    } else {
-    addTaskHandler(task.value, project.value, date.value);
-   
-    task.value = "";
-    project.value = "General Tasks";
-    date.value = "MM-DD-YYYY";
-    closeModal();
-    }
-
-    
-}); */
-    
-// END ADD TASK MODAL
 
 
 // ------ EDIT TASK MODAL

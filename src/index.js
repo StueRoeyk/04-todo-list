@@ -30,7 +30,3 @@ function getProjects () {
 
 
 export { addTaskHandler, deleteTaskHandler, getTasks, getProjects };
-  
-  
-
-
