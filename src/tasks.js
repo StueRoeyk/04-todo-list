@@ -1,12 +1,12 @@
 const taskList = [];
-const projectList = ["General Tasks", "Project 1"];
+const projectList = ["General Tasks", "Project 1", "Project 2"];
 
 class Task {
     constructor(task, project, date) {
         this.task = task;
         this.project = project;
         this.date = date;
-        taskList.push(this);
+        //taskList.push(this);
     }
 }
 
@@ -19,17 +19,22 @@ function shareProjectList () {
 }
 
 function addTask (task, project, date) {
-    new Task(task, project, date);
+    const newTask = new Task(task, project, date);
+    taskList.push(newTask);
+}
+
+function editTask (oldTask, newTask) {
+    taskList.splice(taskList.indexOf(task), 1);
+    taskList.push(newTask);
 }
 
 function deleteTask (task) {
-    console.log(task);
-    console.log(taskList.indexOf(task));
     taskList.splice(taskList.indexOf(task), 1);
 }
 
-new Task("Buy groceries", "General Tasks", "2023-11-08");
-new Task("Cook dinner",  "General Tasks", "2023-11-09");
+addTask("Buy groceries", "General Tasks", "2023-11-08");
+addTask("Cook dinner",  "General Tasks", "2023-11-09");
+
 
 /*
 localStorage.setItem("taskList", JSON.stringify(taskList));
