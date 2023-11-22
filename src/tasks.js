@@ -1,4 +1,5 @@
 import { buildDom } from "./dom";
+const { compareDesc, compareAsc, parse, parseISO } = require('date-fns');
 
 const taskList = [];
 const projectList = ["General Tasks", "Project 1", "Project 2"];
@@ -23,12 +24,12 @@ function shareProjectList () {
 function addTask (task, project, date) {
     const newTask = new Task(task, project, date);
     taskList.push(newTask);
+    taskList.sort((a, b) => compareDesc(parseISO(b.date), parseISO(a.date)));
 }
 
 function editTask (oldTask, task, project, date) {
     taskList.splice(taskList.indexOf(oldTask), 1);
     addTask(task, project, date);
-    
     buildDom();
 }
 
@@ -37,7 +38,7 @@ function deleteTask (task) {
 }
 
 addTask("Buy groceries", "General Tasks", "2023-11-08");
-addTask("Cook dinner",  "General Tasks", "2023-11-09");
+addTask("Cook dinner",  "General Tasks", "2023-10-09");
 addTask("Buy presents",  "Project 1", "2023-11-10");
 
 
