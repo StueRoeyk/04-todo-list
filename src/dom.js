@@ -77,7 +77,7 @@ addTaskButton.id = "add-task-button";
 
 addTaskButton.addEventListener('click', () => {
     addModalFrame();
-    domTest();
+    addTaskModal();
 });
 
 menuBar.appendChild(addTaskButton);
@@ -100,15 +100,14 @@ function addModalFrame() {
     modalHeader.classList.add("modal-header");
 
     const headerText = document.createElement("h2");
-    headerText.textContent = "Add New Task";
+    headerText.textContent = "";
+    headerText.id = "header-text";
 
     const closeButton = document.createElement("button");
     closeButton.classList.add("btn", "close-button");
     closeButton.textContent = "X";
     closeButton.addEventListener('click', () => {
-        while (modalHook.firstChild) {
-            modalHook.removeChild(modalHook.firstChild);
-          }
+        closeModal();
     });
 
     const modalBody = document.createElement("div");
@@ -177,7 +176,7 @@ function addModalFrame() {
     // DATE
     const label3 = document.createElement("label");
     label3.htmlFor = "date";
-    label3.textContent = "Date:";
+    label3.textContent = "Due date:";
 
     const dateSelect = document.createElement("input");
     dateSelect.type = "date";
@@ -200,7 +199,7 @@ function addModalFrame() {
 
     const submitButton = document.createElement("button");
     submitButton.classList.add("btn", "submit-button");
-    submitButton.textContent = "Submit";
+    submitButton.textContent = "";
 
     modalFooter.appendChild(submitButton);
     
@@ -217,9 +216,37 @@ function addModalFrame() {
 
 }
 
-function domTest () {
-    const testy = document.querySelector(".modal-body");
-    console.log(testy);
+function addTaskModal () {
+    const headerText = document.querySelector("#header-text");
+    headerText.textContent = "Create new task:";
+
+    const createButton = document.querySelector(".submit-button");
+    createButton.textContent = "Create";
+
+    const task = document.querySelector("#task");
+    const date = document.querySelector("#date");
+    const project = document.querySelector("#project");
+
+    createButton.addEventListener("click", () => {
+        console.log("the task value is " + task.value);    
+        if (task.value === "" || project.value === "") {
+            console.log("Error");
+        } else {
+        addTaskHandler(task.value, project.value, date.value);
+       
+        task.value = "";
+        project.value = "General Tasks";
+        date.value = "MM-DD-YYYY";
+        closeModal();
+        }
+    })
+}
+
+function closeModal() {
+    const modalHook = document.querySelector("#modal-hook");
+    while (modalHook.firstChild) {
+        modalHook.removeChild(modalHook.firstChild);
+    }
 }
 
 // END BUILD GENERAL MODAL
