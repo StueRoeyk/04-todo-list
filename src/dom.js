@@ -1,4 +1,5 @@
-import { getTasks, getProjects, addTaskHandler } from "./index.js";
+import { getTasks, getProjects, addTaskHandler, deleteTaskHandler } from "./index.js";
+import Delete from "./images/delete.svg";
 
 
 // Cache base DOM
@@ -24,8 +25,11 @@ function buildDom () {
 
         projectCard.appendChild(projectHeader);
         
+        
         currentTaskList.filter((task) => task.project === project).forEach((task) => {
             console.log(task);
+            
+
             const taskCard = document.createElement("div");
             taskCard.classList.add("task-card");
             
@@ -37,9 +41,13 @@ function buildDom () {
             taskMenu.classList.add("task-menu");
 
             const deleteButton = document.createElement("img");
+            deleteButton.classList.add("action-icon", "delete-button");
+            deleteButton.src = Delete;
+            deleteButton.addEventListener('click', () => {
+                deleteTaskHandler(task);
+            })
 
-
-            taskMenu.textContent = "X";
+            taskMenu.appendChild(deleteButton);
 
             taskCard.appendChild(taskLabel);
             taskCard.appendChild(taskMenu);

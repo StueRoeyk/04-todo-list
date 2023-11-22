@@ -18,8 +18,14 @@ function shareProjectList () {
     return projectList;
 }
 
-function removeTask () {
-    
+function addTask (task, project, date) {
+    new Task(task, project, date);
+}
+
+function deleteTask (task) {
+    console.log(task);
+    console.log(taskList.indexOf(task));
+    taskList.splice(taskList.indexOf(task), 1);
 }
 
 new Task("Buy groceries", "General Tasks", "2023-11-08");
@@ -36,13 +42,8 @@ console.log(taskList2[0].project);
 */
 
 
-function addTask (task, project, date) {
-    new Task(task, project, date);
-}
-
-
 function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, shareTaskList, shareProjectList };
+export { helloTasks, addTask, deleteTask, shareTaskList, shareProjectList };
