@@ -225,6 +225,7 @@ function addModalFrame() {
     dateSelect.type = "date";
     dateSelect.name = "date";
     dateSelect.id = "date";
+    dateSelect.value = new Date().toISOString().split('T')[0];
 
     modalInputDiv3.appendChild(label3);
     modalInputDiv3.appendChild(dateSelect);
@@ -275,10 +276,6 @@ function addTaskModal () {
             console.log("Error");
         } else {
         addTaskHandler(taskField.value, projectField.value, dateField.value);
-       
-        taskField.value = "";
-        projectField.value = "General Tasks";
-        dateField.value = "MM-DD-YYYY";
         closeModal();
         }
     })
