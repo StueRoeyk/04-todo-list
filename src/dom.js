@@ -34,9 +34,19 @@ function buildDom () {
             const taskCard = document.createElement("div");
             taskCard.classList.add("task-card");
             
+            const taskContent = document.createElement("div");
+            taskContent.classList.add("task-content");
+
             const taskLabel = document.createElement("div");
             taskLabel.textContent = task.task;
             taskLabel.classList.add("task-label");
+            taskLabel.addEventListener('click', () => {
+                domTaskEdit(task, taskLabel, taskEditInput);
+            })
+
+            const taskEditInput = document.createElement("input");
+            taskEditInput.classList.add("task-edit-input");
+            taskEditInput.value = task.task;
 
             const taskMenu = document.createElement("div");
             taskMenu.classList.add("task-menu");
@@ -64,7 +74,9 @@ function buildDom () {
             taskMenu.appendChild(deleteButton);
             taskMenu.appendChild(editButton);
 
-            taskCard.appendChild(taskLabel);
+            taskContent.appendChild(taskLabel);
+            taskContent.appendChild(taskEditInput);
+            taskCard.appendChild(taskContent);
             taskCard.appendChild(taskMenu);
             projectCard.appendChild(taskCard);
 
@@ -75,6 +87,29 @@ function buildDom () {
     });
 
 }
+
+// ON-DOM EDITING
+
+function domTaskEdit(task, taskLabel, taskEditInput) {
+    const oldTask = task;
+    const project = task.project;
+    const date = task.date;
+    taskLabel.classList.add("active");
+    taskEditInput.classList.add("active");
+    taskEditInput.addEventListener('keypress', (event) => {
+        if (event.key === "Enter") {
+            taskEditInput.blur();
+        }
+    });
+    taskEditInput.addEventListener('focusout', () => {
+        taskLabel.classList.remove("active");
+        taskEditInput.classList.remove("active");
+        editTaskHandler(oldTask, taskEditInput.value, project, date);
+    });
+    taskEditInput.focus();
+}
+
+// END ON-DOM EDITING
 
 
 // ------ ADD TASK BUTTON
