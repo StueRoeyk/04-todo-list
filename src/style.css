@@ -94,7 +94,10 @@ body {
 .action-icon {
     width: 1rem;
     cursor: pointer;
+    padding: 0px 3px;
 }
+
+
 
 
 

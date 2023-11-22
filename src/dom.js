@@ -1,5 +1,6 @@
-import { getTasks, getProjects, addTaskHandler, deleteTaskHandler } from "./index.js";
+import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler } from "./index.js";
 import Delete from "./images/delete.svg";
+import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
 const { format, parseISO } = require('date-fns');
 
@@ -29,9 +30,7 @@ function buildDom () {
         
         
         currentTaskList.filter((task) => task.project === project).forEach((task) => {
-            console.log(task);
             
-
             const taskCard = document.createElement("div");
             taskCard.classList.add("task-card");
             
@@ -53,8 +52,17 @@ function buildDom () {
                 deleteTaskHandler(task);
             })
 
+            const editButton = document.createElement("img");
+            editButton.classList.add("action-icon", "options-button");
+            editButton.src = Edit;
+            editButton.addEventListener('click', () => {
+                addModalFrame();
+                editTaskModal(task);
+            })
+
             taskMenu.appendChild(dateLabel);
             taskMenu.appendChild(deleteButton);
+            taskMenu.appendChild(editButton);
 
             taskCard.appendChild(taskLabel);
             taskCard.appendChild(taskMenu);
@@ -161,7 +169,6 @@ function addModalFrame() {
     const currentProjects = getProjects();
 
     if (currentProjects.length < 2) {
-        console.log(currentProjects.length);
         projectSelect.setAttribute("disabled", "disabled");
     } else {
         for (let i = 1; i < currentProjects.length ; i++ ) {
@@ -224,28 +231,60 @@ function addTaskModal () {
     const createButton = document.querySelector(".submit-button");
     createButton.textContent = "Create";
 
-    const task = document.querySelector("#task");
-    const date = document.querySelector("#date");
-    const project = document.querySelector("#project");
+    const taskField = document.querySelector("#task");
+    const dateField = document.querySelector("#date");
+    const projectField = document.querySelector("#project");
 
-    createButton.addEventListener("click", () => {
-        console.log("the task value is " + task.value);    
-        if (task.value === "" || project.value === "") {
+    createButton.addEventListener("click", () => { 
+        if (taskField.value === "" || projectField.value === "") {
             console.log("Error");
         } else {
-        addTaskHandler(task.value, project.value, date.value);
+        addTaskHandler(taskField.value, projectField.value, dateField.value);
        
-        task.value = "";
-        project.value = "General Tasks";
-        date.value = "MM-DD-YYYY";
+        taskField.value = "";
+        projectField.value = "General Tasks";
+        dateField.value = "MM-DD-YYYY";
         closeModal();
         }
     })
 }
 
-function editTaskModal() {
-    console.log("Editing the task!");
+// ------ EDIT TASK MODAL
+function editTaskModal(task) {
+
+    const oldTask = task;
+
+    const headerText = document.querySelector("#header-text");
+    headerText.textContent = "Edit task:";
+
+    const editButton = document.querySelector(".submit-button");
+    editButton.textContent = "Save";
+    editButton.addEventListener('click', () => {
+        editTaskHandler(oldTask, taskField.value, projectField.value, dateField.value);
+    });
+
+    const taskField = document.querySelector("#task");
+    const dateField = document.querySelector("#date");
+    const projectField = document.querySelector("#project");
+
+    taskField.value = task.task;
+    const projectArray = document.querySelectorAll("#project > option");
+    projectArray.forEach((project) => {
+        if (project.value === task.project) {
+            project.setAttribute("selected", "selected");
+        }
+    });
+    dateField.value = task.date;
+
+
+    
+
+   
 }
+
+
+// END EDIT TASK MODAL
+
 
 function closeModal() {
     const modalHook = document.querySelector("#modal-hook");
@@ -254,11 +293,8 @@ function closeModal() {
     }
 }
 
-// END BUILD GENERAL MODAL
 
 
-
-// ------ EDIT TASK MODAL
 
 /* function editTaskModal () {
 

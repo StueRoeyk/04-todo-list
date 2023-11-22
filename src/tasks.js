@@ -1,3 +1,5 @@
+import { buildDom } from "./dom";
+
 const taskList = [];
 const projectList = ["General Tasks", "Project 1", "Project 2"];
 
@@ -23,9 +25,11 @@ function addTask (task, project, date) {
     taskList.push(newTask);
 }
 
-function editTask (oldTask, newTask) {
-    taskList.splice(taskList.indexOf(task), 1);
-    taskList.push(newTask);
+function editTask (oldTask, task, project, date) {
+    taskList.splice(taskList.indexOf(oldTask), 1);
+    addTask(task, project, date);
+    
+    buildDom();
 }
 
 function deleteTask (task) {
@@ -34,6 +38,7 @@ function deleteTask (task) {
 
 addTask("Buy groceries", "General Tasks", "2023-11-08");
 addTask("Cook dinner",  "General Tasks", "2023-11-09");
+addTask("Buy presents",  "Project 1", "2023-11-10");
 
 
 /*
@@ -51,4 +56,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, shareTaskList, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, shareTaskList, shareProjectList };

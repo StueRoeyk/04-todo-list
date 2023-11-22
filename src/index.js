@@ -1,5 +1,5 @@
 import "./style.css";
-import { helloTasks, addTask, deleteTask, shareTaskList, shareProjectList } from "./tasks.js";
+import { helloTasks, addTask, deleteTask, editTask, shareTaskList, shareProjectList } from "./tasks.js";
 import { helloDom, buildDom } from "./dom.js";
 
 console.log("index.js loaded");
@@ -18,6 +18,10 @@ const deleteTaskHandler = (task) => {
     buildDom();
 };
 
+const editTaskHandler = (oldTask, task, project, date) => {
+    editTask(oldTask, task, project, date);
+}
+
 function getTasks () {
     return shareTaskList();
 }
@@ -29,4 +33,4 @@ function getProjects () {
 
 
 
-export { addTaskHandler, deleteTaskHandler, getTasks, getProjects };
+export { addTaskHandler, deleteTaskHandler, editTaskHandler, getTasks, getProjects };
