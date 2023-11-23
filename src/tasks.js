@@ -9,6 +9,7 @@ class Task {
         this.task = task;
         this.project = project;
         this.date = date;
+        this.completed = false;
         //taskList.push(this);
     }
 }

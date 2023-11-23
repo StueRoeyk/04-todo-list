@@ -84,6 +84,12 @@ body {
     cursor: pointer;
 }
 
+.action-icon {
+    width: 1rem;
+    cursor: pointer;
+    padding: 0px 3px;
+}
+
 .project-card {
     background-color: var(--color-surface-200);
     color: var(--color-better-white);
@@ -144,6 +150,10 @@ body {
     display: flex;
 }
 
+.task-circle {
+    padding-right: 5px;
+}
+
 .task-label {
     padding-right: 20px;
 }
@@ -178,11 +188,7 @@ body {
     padding-right: 10px;
 }
 
-.action-icon {
-    width: 1rem;
-    cursor: pointer;
-    padding: 0px 3px;
-}
+
 
 
 

@@ -3,6 +3,7 @@ import Delete from "./images/delete.svg";
 import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
 import Dew from "./images/dew.png";
+import Circle from "./images/circle.svg";
 const { format, parseISO } = require('date-fns');
 
 
@@ -93,6 +94,13 @@ function buildDom () {
             const taskContent = document.createElement("div");
             taskContent.classList.add("task-content");
 
+            const taskCircle = document.createElement("img");
+            taskCircle.classList.add("action-icon", "task-circle");
+            taskCircle.src = Circle;
+            taskCircle.addEventListener('click', () => {
+                deleteTaskHandler(task);
+            })
+
             const taskLabel = document.createElement("div");
             taskLabel.textContent = task.task;
             taskLabel.classList.add("task-label");
@@ -129,6 +137,7 @@ function buildDom () {
             taskMenu.appendChild(deleteButton);
             taskMenu.appendChild(editButton);
 
+            taskContent.appendChild(taskCircle);
             taskContent.appendChild(taskLabel);
             taskContent.appendChild(taskEditInput);
             taskCard.appendChild(taskContent);
