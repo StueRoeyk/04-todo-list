@@ -34,7 +34,6 @@ addTask("Buy presents",  "Project 1", "2023-11-10");
 function editTask (oldTask, task, project, date) {
     taskList.splice(taskList.indexOf(oldTask), 1);
     addTask(task, project, date);
-    buildDom();
 }
 
 function deleteTask (task) {
@@ -43,11 +42,28 @@ function deleteTask (task) {
 
 function addProject (project) {
     projectList.push(project);
+    sortProjects();
 }
 
-function editProject (project) {
-    console.log(project + " edited!");
+function editProject (oldProject, project) {
+    console.log(oldProject + " is old name");
+    console.log(project + " is new name");
+    projectList.splice(projectList.indexOf(oldProject), 1);
+    addProject(project);
+    taskList.forEach((task) => {
+        console.log(task.project);
+        if (task.project === oldProject) {
+            task.project = project;
+        }
+    });
+    sortProjects();
 };
+
+function sortProjects () {
+    projectList.sort();
+    const generalTasksIndex = projectList.indexOf("General Tasks");
+    projectList.unshift(projectList.splice(generalTasksIndex, 1)[0]);  
+}
 
 
 /*
@@ -65,4 +81,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, shareTaskList, addProject, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, shareTaskList, addProject, editProject, shareProjectList };

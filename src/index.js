@@ -20,6 +20,7 @@ const deleteTaskHandler = (task) => {
 
 const editTaskHandler = (oldTask, task, project, date) => {
     editTask(oldTask, task, project, date);
+    buildDom();
 }
 
 function getTasks () {
@@ -31,8 +32,8 @@ function addProjectHandler (project) {
     buildDom();
 }
 
-function editProjectHandler (project) {
-    editProject(project);
+function editProjectHandler (oldProject, project) {
+    editProject(oldProject, project);
     buildDom();
 }
 

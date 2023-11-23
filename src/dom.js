@@ -1,4 +1,4 @@
-import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, addProjectHandler } from "./index.js";
+import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, addProjectHandler, editProjectHandler } from "./index.js";
 import Delete from "./images/delete.svg";
 import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
@@ -65,6 +65,7 @@ function buildDom () {
             editProjectButton.textContent = "Edit";
             editProjectButton.addEventListener("click", () => {
                 console.log("Edit!")
+                buildEditProjectModal(project);
             });
 
             const deleteProjectButton = document.createElement("div");
@@ -220,7 +221,10 @@ function buildAddProjectModal () {
     addProjectModal();
 }
 
-
+function buildEditProjectModal (project) {
+    projectModal();
+    editProjectModal(project);
+}
 
 
 
@@ -513,15 +517,17 @@ function addProjectModal () {
 // END ADD-PROJECT MODAL
 
 // EDIT-PROJECT MODAL
-function editProjectModal () {
+function editProjectModal (project) {
+
+    const oldProject = project;
 
     const currentProjects = getProjects();
 
     const headerText = document.querySelector("#header-text");
-    headerText.textContent = "Create new project:";
+    headerText.textContent = "Edit project:";
 
     const createButton = document.querySelector(".submit-button");
-    createButton.textContent = "Create";
+    createButton.textContent = "Save";
 
     const projectField = document.querySelector("#project");
     projectField.focus();
@@ -532,7 +538,7 @@ function editProjectModal () {
         } else if (currentProjects.includes(projectField.value)) {
             console.log("Cannot have duplicate project names");
         } else {
-        editProjectHandler(projectField.value);
+        editProjectHandler(oldProject, projectField.value);
         closeModal();
         }
     })
