@@ -2,6 +2,7 @@ import { buildDom } from "./dom";
 const { compareDesc, compareAsc, parse, parseISO } = require('date-fns');
 
 const taskList = [];
+const completedTaskList = [];
 const projectList = ["General Tasks", "Project 1", "Project 2"];
 
 class Task {
@@ -22,6 +23,10 @@ function shareProjectList () {
     return projectList;
 }
 
+function shareCompletedTaskList() {
+    return completedTaskList;
+}
+
 function addTask (task, project, date) {
     const newTask = new Task(task, project, date);
     taskList.push(newTask);
@@ -32,6 +37,7 @@ addTask("Buy groceries", "General Tasks", "2023-11-08");
 addTask("Cook dinner",  "General Tasks", "2023-10-09");
 addTask("Buy presents",  "Project 1", "2023-11-10");
 
+
 function editTask (oldTask, task, project, date) {
     taskList.splice(taskList.indexOf(oldTask), 1);
     addTask(task, project, date);
@@ -39,6 +45,10 @@ function editTask (oldTask, task, project, date) {
 
 function deleteTask (task) {
     taskList.splice(taskList.indexOf(task), 1);
+}
+
+function completeTask (task) {
+    completedTaskList.push(taskList.splice(taskList.indexOf(task), 1)[0]);
 }
 
 function addProject (project) {
@@ -82,4 +92,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, shareTaskList, addProject, editProject, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, completeTask, shareTaskList, shareCompletedTaskList, addProject, editProject, shareProjectList };

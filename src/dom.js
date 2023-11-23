@@ -1,4 +1,4 @@
-import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, addProjectHandler, editProjectHandler } from "./index.js";
+import { getTasks, getCompleted, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, addProjectHandler, editProjectHandler } from "./index.js";
 import Delete from "./images/delete.svg";
 import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
@@ -16,6 +16,7 @@ const menuBar = document.querySelector("#menu-bar");
 function buildDom () {
     const currentProjects = getProjects();
     const currentTaskList = getTasks();
+    const currentCompletedTaskList = getCompleted();
 
     window.onclick = function(event) {
         if (!event.target.matches('.project-options-button')) {    
@@ -98,7 +99,7 @@ function buildDom () {
             taskCircle.classList.add("action-icon", "task-circle");
             taskCircle.src = Circle;
             taskCircle.addEventListener('click', () => {
-                deleteTaskHandler(task);
+                completeTaskHandler(task);
             })
 
             const taskLabel = document.createElement("div");
@@ -146,6 +147,20 @@ function buildDom () {
 
 
           });
+
+          // PROJECT CARD COMPLETED TASK FOOTER
+         
+          if (currentCompletedTaskList.some(task => task.project === project)) {
+            const projectFooterBox = document.createElement("div");
+            projectFooterBox.classList.add("project-footer-box");
+
+            const projectFooterLabel = document.createElement("h3");
+            projectFooterLabel.textContent = "Completed tasks:";
+    
+            projectFooterBox.appendChild(projectFooterLabel);
+            
+            projectCard.appendChild(projectFooterBox);
+          }
    
         content.appendChild(projectCard);
     });
