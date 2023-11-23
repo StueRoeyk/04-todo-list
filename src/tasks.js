@@ -27,6 +27,10 @@ function addTask (task, project, date) {
     taskList.sort((a, b) => compareDesc(parseISO(b.date), parseISO(a.date)));
 }
 
+addTask("Buy groceries", "General Tasks", "2023-11-08");
+addTask("Cook dinner",  "General Tasks", "2023-10-09");
+addTask("Buy presents",  "Project 1", "2023-11-10");
+
 function editTask (oldTask, task, project, date) {
     taskList.splice(taskList.indexOf(oldTask), 1);
     addTask(task, project, date);
@@ -37,9 +41,10 @@ function deleteTask (task) {
     taskList.splice(taskList.indexOf(task), 1);
 }
 
-addTask("Buy groceries", "General Tasks", "2023-11-08");
-addTask("Cook dinner",  "General Tasks", "2023-10-09");
-addTask("Buy presents",  "Project 1", "2023-11-10");
+function addProject (project) {
+    console.log("Add project!" + project);
+    projectList.push(project);
+}
 
 
 /*
@@ -57,4 +62,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, shareTaskList, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, shareTaskList, addProject, shareProjectList };

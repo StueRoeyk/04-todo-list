@@ -1,7 +1,8 @@
-import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler } from "./index.js";
+import { getTasks, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, addProjectHandler } from "./index.js";
 import Delete from "./images/delete.svg";
 import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
+import Dew from "./images/dew.png";
 const { format, parseISO } = require('date-fns');
 
 
@@ -15,6 +16,18 @@ function buildDom () {
     const currentProjects = getProjects();
     const currentTaskList = getTasks();
 
+    window.onclick = function(event) {
+        if (!event.target.matches('.project-options-button')) {    
+          let dropdowns = document.getElementsByClassName("project-options-dropdown");
+          for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+    }
+
     while (content.firstChild) {
         content.removeChild(content.firstChild);
       }
@@ -22,12 +35,54 @@ function buildDom () {
     currentProjects.forEach((project) => {
         const projectCard = document.createElement("div");
         projectCard.classList.add("project-card");
+
+        const projectHeaderBox = document.createElement("div")
+        projectHeaderBox.classList.add("project-header-box");
         
         const projectHeader = document.createElement("h2");
         projectHeader.textContent = project;
 
-        projectCard.appendChild(projectHeader);
+        projectHeaderBox.appendChild(projectHeader);
         
+        if (project !== "General Tasks") {
+            const projectOptionsBox = document.createElement("div");
+            projectOptionsBox.classList.add("project-options-box");
+
+            const projectOptionsButton = document.createElement("img");
+            projectOptionsButton.classList.add("action-icon", "project-options-button");
+            projectOptionsButton.src = Options;
+
+            projectOptionsButton.addEventListener("click", (event) => {
+                event.stopPropagation()
+                projectOptionsDropdown.classList.add("show");
+            })
+            
+            const projectOptionsDropdown = document.createElement("div");
+            projectOptionsDropdown.classList.add("project-options-dropdown");
+
+            const editProjectButton = document.createElement("div");
+            editProjectButton.classList.add("project-dropdown-button");
+            editProjectButton.textContent = "Edit";
+            editProjectButton.addEventListener("click", () => {
+                console.log("Edit!")
+            });
+
+            const deleteProjectButton = document.createElement("div");
+            deleteProjectButton.classList.add("project-dropdown-button");
+            deleteProjectButton.textContent = "Delete";
+            deleteProjectButton.addEventListener("click", () => {
+                console.log("Delete!");
+            })
+
+            projectOptionsDropdown.appendChild(editProjectButton);
+            projectOptionsDropdown.appendChild(deleteProjectButton);
+            projectOptionsBox.appendChild(projectOptionsDropdown);
+            projectOptionsBox.appendChild(projectOptionsButton);
+            projectHeaderBox.appendChild(projectOptionsBox);
+        }
+        
+
+        projectCard.appendChild(projectHeaderBox);
         
         currentTaskList.filter((task) => task.project === project).forEach((task) => {
             
@@ -111,6 +166,13 @@ function domTaskEdit(task, taskLabel, taskEditInput) {
 
 // END ON-DOM EDITING
 
+// DEW logo
+
+/* const dewLogo = document.createElement("img");
+dewLogo.src = Dew;
+dewLogo.id = "dew-logo";
+menuBar.appendChild(dewLogo);
+ */
 
 // ------ ADD TASK BUTTON
 
@@ -125,6 +187,22 @@ addTaskButton.addEventListener('click', () => {
 });
 
 menuBar.appendChild(addTaskButton);
+
+// END ADD TASK BUTTON
+
+// ------ ADD PROJECT BUTTON
+
+const addProjectButton = document.createElement("input");
+addProjectButton.type = "button";
+addProjectButton.value = "+";
+addProjectButton.id = "add-project-button";
+
+addProjectButton.addEventListener('click', () => {
+    projectModal();
+    addProjectModal();
+});
+
+menuBar.appendChild(addProjectButton);
 
 // END ADD TASK BUTTON
 
@@ -260,6 +338,8 @@ function addModalFrame() {
 
 }
 
+// ------ **ADD** TASK MODAL
+
 function addTaskModal () {
     const headerText = document.querySelector("#header-text");
     headerText.textContent = "Create new task:";
@@ -280,6 +360,7 @@ function addTaskModal () {
         }
     })
 }
+// END ADD TASK MODAL
 
 // ------ EDIT TASK MODAL
 function editTaskModal(task) {
@@ -308,16 +389,107 @@ function editTaskModal(task) {
         }
     });
     dateField.value = task.date;
-
-
-    
-
-   
+ 
 }
-
-
 // END EDIT TASK MODAL
 
+// PROJECT MODAL
+
+function projectModal () {
+    const currentProjects = getProjects();
+
+    const modalHook = document.querySelector("#modal-hook");
+
+    const modalContainer = document.createElement("div")
+    modalContainer.classList.add("modal-container");
+
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    const modalHeader = document.createElement("div");
+    modalHeader.classList.add("modal-header");
+
+    const headerText = document.createElement("h2");
+    headerText.textContent = "";
+    headerText.id = "header-text";
+
+    const closeButton = document.createElement("button");
+    closeButton.classList.add("btn", "close-button");
+    closeButton.textContent = "X";
+    closeButton.addEventListener('click', () => {
+        closeModal();
+    });
+
+    const modalBody = document.createElement("div");
+    modalBody.classList.add("modal-body");
+
+    const modalForm = document.createElement("form");
+
+    const modalInputDiv1 = document.createElement("div");
+    modalInputDiv1.classList.add("modal-input-div");
+    
+    // PROJECT
+    const label1 = document.createElement("label");
+    label1.htmlFor = "project";
+    label1.textContent = "Project:";
+
+    const projectInput = document.createElement('input');
+    projectInput.type = 'project';
+    projectInput.name = 'project';
+    projectInput.id = 'project';
+
+    modalInputDiv1.appendChild(label1);
+    modalInputDiv1.appendChild(projectInput);
+    // END PROJECT
+
+
+    modalForm.appendChild(modalInputDiv1);
+    
+    // FINAL CTA BUTTON
+
+    const modalFooter = document.createElement("div");
+    modalFooter.classList.add("modal-footer");
+
+    const submitButton = document.createElement("button");
+    submitButton.classList.add("btn", "submit-button");
+    submitButton.textContent = "";
+
+    modalFooter.appendChild(submitButton);
+    
+    modalBody.appendChild(modalForm);
+    
+    modalHeader.appendChild(headerText);
+    modalHeader.appendChild(closeButton);
+
+    modal.appendChild(modalHeader);
+    modal.appendChild(modalBody);
+    modal.appendChild(modalFooter);
+    modalContainer.appendChild(modal);
+    modalHook.appendChild(modalContainer);
+}
+// END PROJECT MODAL
+
+// ADD PROJECT MODAL
+function addProjectModal () {
+    const headerText = document.querySelector("#header-text");
+    headerText.textContent = "Create new project:";
+
+    const createButton = document.querySelector(".submit-button");
+    createButton.textContent = "Create";
+
+    const projectField = document.querySelector("#project");
+
+    createButton.addEventListener("click", () => { 
+        if (projectField.value === "") {
+            console.log("Error");
+        } else {
+        addProjectHandler(projectField.value);
+        closeModal();
+        }
+    })
+}
+
+// END ADD PROJECT MODAL
 
 function closeModal() {
     const modalHook = document.querySelector("#modal-hook");
@@ -325,47 +497,6 @@ function closeModal() {
         modalHook.removeChild(modalHook.firstChild);
     }
 }
-
-
-
-
-/* function editTaskModal () {
-
-    const editContainer = document.createElement('.edit-container');
-    const modalCloseButton = document.querySelector('.btn-primary');
-    const modalSubmitButton = document.querySelector(".btn-submit");
-    const task = document.querySelector("#task");
-    const project = document.querySelector("#project");
-    const date = document.querySelector("#date");
-    
-    modalCloseButton.addEventListener('click', () => {
-        closeModal();
-    });
-    
-    function closeModal() {
-        modalContainer.classList.add('hidden');
-    }
-    
-    modalSubmitButton.addEventListener("click", () => {
-        if (task.value === "" || project.value === "") {
-            console.log("Error");
-        } else {
-        addTaskHandler(task.value, project.value, date.value);
-       
-        task.value = "";
-        project.value = "General Tasks";
-        date.value = "MM-DD-YYYY";
-        closeModal();
-        }
-    
-        
-    });
-
-} */
-
-    
-// END ADD TASK MODAL
-
 
 function helloDom () {
     console.log("dom.js loaded");
