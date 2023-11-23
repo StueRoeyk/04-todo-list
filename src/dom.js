@@ -121,8 +121,7 @@ function buildDom () {
             editButton.classList.add("action-icon", "options-button");
             editButton.src = Edit;
             editButton.addEventListener('click', () => {
-                addModalFrame();
-                editTaskModal(task);
+                buildEditTaskModal(task);
             })
 
             taskMenu.appendChild(dateLabel);
@@ -182,8 +181,7 @@ addTaskButton.value = "+";
 addTaskButton.id = "add-task-button";
 
 addTaskButton.addEventListener('click', () => {
-    addModalFrame();
-    addTaskModal();
+    buildAddTaskModal();
 });
 
 menuBar.appendChild(addTaskButton);
@@ -198,13 +196,32 @@ addProjectButton.value = "+";
 addProjectButton.id = "add-project-button";
 
 addProjectButton.addEventListener('click', () => {
-    projectModal();
-    addProjectModal();
+    buildAddProjectModal();
 });
 
 menuBar.appendChild(addProjectButton);
 
 // END ADD TASK BUTTON
+
+// ------- COMMANDS
+
+function buildAddTaskModal () {
+    addModalFrame();
+    addTaskModal();
+}
+
+function buildEditTaskModal (task) {
+    addModalFrame();
+    editTaskModal(task);
+}
+
+function buildAddProjectModal () {
+    projectModal();
+    addProjectModal();
+}
+
+
+
 
 
 // ------ BUILD GENERAL MODAL
@@ -396,7 +413,6 @@ function editTaskModal(task) {
 // PROJECT MODAL
 
 function projectModal () {
-    const currentProjects = getProjects();
 
     const modalHook = document.querySelector("#modal-hook");
 
@@ -469,8 +485,11 @@ function projectModal () {
 }
 // END PROJECT MODAL
 
-// ADD PROJECT MODAL
+// ADD-PROJECT MODAL
 function addProjectModal () {
+
+    const currentProjects = getProjects();
+
     const headerText = document.querySelector("#header-text");
     headerText.textContent = "Create new project:";
 
@@ -478,18 +497,50 @@ function addProjectModal () {
     createButton.textContent = "Create";
 
     const projectField = document.querySelector("#project");
+    projectField.focus();
 
     createButton.addEventListener("click", () => { 
         if (projectField.value === "") {
             console.log("Error");
+        } else if (currentProjects.includes(projectField.value)) {
+            console.log("Cannot have duplicate project names");
         } else {
         addProjectHandler(projectField.value);
         closeModal();
         }
     })
 }
+// END ADD-PROJECT MODAL
 
-// END ADD PROJECT MODAL
+// EDIT-PROJECT MODAL
+function editProjectModal () {
+
+    const currentProjects = getProjects();
+
+    const headerText = document.querySelector("#header-text");
+    headerText.textContent = "Create new project:";
+
+    const createButton = document.querySelector(".submit-button");
+    createButton.textContent = "Create";
+
+    const projectField = document.querySelector("#project");
+    projectField.focus();
+
+    createButton.addEventListener("click", () => { 
+        if (projectField.value === "") {
+            console.log("Error");
+        } else if (currentProjects.includes(projectField.value)) {
+            console.log("Cannot have duplicate project names");
+        } else {
+        editProjectHandler(projectField.value);
+        closeModal();
+        }
+    })
+}
+
+// END EDIT-PROJECT MODAL
+
+
 
 function closeModal() {
     const modalHook = document.querySelector("#modal-hook");

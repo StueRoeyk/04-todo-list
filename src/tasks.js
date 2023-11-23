@@ -42,9 +42,12 @@ function deleteTask (task) {
 }
 
 function addProject (project) {
-    console.log("Add project!" + project);
     projectList.push(project);
 }
+
+function editProject (project) {
+    console.log(project + " edited!");
+};
 
 
 /*
