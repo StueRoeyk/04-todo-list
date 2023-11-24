@@ -1,5 +1,5 @@
 import "./style.css";
-import { helloTasks, addTask, deleteTask, editTask, completeTask, shareTaskList, shareCompletedTaskList, addProject, editProject, shareProjectList } from "./tasks.js";
+import { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, shareProjectList } from "./tasks.js";
 import { helloDom, buildDom } from "./dom.js";
 
 console.log("index.js loaded");
@@ -28,6 +28,11 @@ const completeTaskHandler = (task) => {
     buildDom();
 }
 
+const undoTaskCompletionHandler = (task) => {
+    undoTaskCompletion(task);
+    buildDom();
+}
+
 function getTasks () {
     return shareTaskList();
 }
@@ -46,6 +51,11 @@ function editProjectHandler (oldProject, project) {
     buildDom();
 }
 
+const deleteProjectHandler = (project) => {
+    deleteProject(project);
+    buildDom();
+}
+
 function getProjects () {
     return shareProjectList();
 }
@@ -53,4 +63,4 @@ function getProjects () {
 
 
 
-export { addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, getTasks, getCompleted, addProjectHandler, editProjectHandler, getProjects };
+export { addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, undoTaskCompletionHandler, getTasks, getCompleted, addProjectHandler, editProjectHandler, deleteProjectHandler, getProjects };

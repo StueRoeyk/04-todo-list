@@ -1,9 +1,11 @@
-import { getTasks, getCompleted, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, addProjectHandler, editProjectHandler } from "./index.js";
+import { getTasks, getCompleted, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, undoTaskCompletionHandler, addProjectHandler, editProjectHandler, deleteProjectHandler } from "./index.js";
 import Delete from "./images/delete.svg";
+import DeleteGrey from "./images/delete-grey.svg"
 import Edit from "./images/edit.svg";
 import Options from "./images/options.svg";
 import Dew from "./images/dew.png";
 import Circle from "./images/circle.svg";
+import Undo from "./images/undo.svg";
 const { format, parseISO } = require('date-fns');
 
 
@@ -74,7 +76,12 @@ function buildDom () {
             deleteProjectButton.classList.add("project-dropdown-button");
             deleteProjectButton.textContent = "Delete";
             deleteProjectButton.addEventListener("click", () => {
-                console.log("Delete!");
+                if (currentTaskList.some(task => task.project === project)) {
+                    deleteProjectModal(project);
+                } else {
+                    deleteProjectHandler(project);
+                }
+                
             })
 
             projectOptionsDropdown.appendChild(editProjectButton);
@@ -156,10 +163,48 @@ function buildDom () {
 
             const projectFooterLabel = document.createElement("h3");
             projectFooterLabel.textContent = "Completed tasks:";
-    
+
             projectFooterBox.appendChild(projectFooterLabel);
-            
             projectCard.appendChild(projectFooterBox);
+    
+            currentCompletedTaskList.filter((task) => task.project === project).forEach((task) => {
+            
+                const taskCard = document.createElement("div");
+                taskCard.classList.add("task-card", "footer");
+                
+                const taskContent = document.createElement("div");
+                taskContent.classList.add("task-content");
+            
+                const taskCircle = document.createElement("img");
+                taskCircle.classList.add("action-icon", "task-circle");
+                taskCircle.src = Undo;
+                taskCircle.addEventListener('click', () => {
+                    undoTaskCompletionHandler(task);
+                })
+
+                const taskLabel = document.createElement("div");
+                taskLabel.textContent = task.task;
+                taskLabel.classList.add("task-label", "footer");
+            
+                const taskMenu = document.createElement("div");
+                taskMenu.classList.add("task-menu");
+            
+                const deleteButton = document.createElement("img");
+                deleteButton.classList.add("action-icon", "delete-button");
+                deleteButton.src = DeleteGrey;
+                deleteButton.addEventListener('click', () => {
+                    console.log("Permanently delete!");
+                })
+            
+                taskContent.appendChild(taskCircle);
+                taskContent.appendChild(taskLabel);
+                taskMenu.appendChild(deleteButton);
+
+                taskCard.appendChild(taskContent);
+                taskCard.appendChild(taskMenu);
+                projectCard.appendChild(taskCard);
+            
+              });
           }
    
         content.appendChild(projectCard);
@@ -567,8 +612,74 @@ function editProjectModal (project) {
         }
     })
 }
-
 // END EDIT-PROJECT MODAL
+
+// DELETE PROJECT WARNING MODAL
+function deleteProjectModal (project) {
+    const modalHook = document.querySelector("#modal-hook");
+
+    const modalContainer = document.createElement("div")
+    modalContainer.classList.add("modal-container");
+
+    const modal = document.createElement("div");
+    modal.classList.add("modal", "warning");
+
+    const modalHeader = document.createElement("div");
+    modalHeader.classList.add("modal-header");
+
+    const headerText = document.createElement("h2");
+    headerText.textContent = "Delete Project - Warning!";
+    headerText.id = "header-warning-text";
+
+    const closeButton = document.createElement("button");
+    closeButton.classList.add("btn", "close-button");
+    closeButton.textContent = "X";
+    closeButton.addEventListener('click', () => {
+        closeModal();
+    });
+
+    const modalBody = document.createElement("div");
+    modalBody.classList.add("modal-body");
+
+    const modalForm = document.createElement("form");
+
+    const modalWarning1 = document.createElement("div");
+    modalWarning1.classList.add("modal-warning-div");
+    modalWarning1.textContent = "Do you want existing tasks for this project to be deleted, or moved to \"General Tasks\"?";
+
+    const modalWarning2 = document.createElement("div");
+    modalWarning2.classList.add("modal-warning-div");
+    modalWarning2.textContent = "This choice cannot be undone.";
+
+    modalForm.appendChild(modalWarning1);
+    modalForm.appendChild(modalWarning2);
+    
+    // FINAL CTA BUTTONS
+
+    const modalFooter = document.createElement("div");
+    modalFooter.classList.add("modal-footer");
+
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn", "submit-button", "delete-warning");
+    deleteButton.textContent = "Delete tasks";
+    modalFooter.appendChild(deleteButton);
+
+    const submitButton = document.createElement("button");
+    submitButton.classList.add("btn", "submit-button");
+    submitButton.textContent = "Move tasks";
+    modalFooter.appendChild(submitButton);
+    
+    modalBody.appendChild(modalForm);
+    
+    modalHeader.appendChild(headerText);
+    modalHeader.appendChild(closeButton);
+
+    modal.appendChild(modalHeader);
+    modal.appendChild(modalBody);
+    modal.appendChild(modalFooter);
+    modalContainer.appendChild(modal);
+    modalHook.appendChild(modalContainer);
+}
 
 
 

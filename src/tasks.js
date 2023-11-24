@@ -30,7 +30,7 @@ function shareCompletedTaskList() {
 function addTask (task, project, date) {
     const newTask = new Task(task, project, date);
     taskList.push(newTask);
-    taskList.sort((a, b) => compareDesc(parseISO(b.date), parseISO(a.date)));
+    sortTasks();
 }
 
 addTask("Buy groceries", "General Tasks", "2023-11-08");
@@ -51,6 +51,11 @@ function completeTask (task) {
     completedTaskList.push(taskList.splice(taskList.indexOf(task), 1)[0]);
 }
 
+function undoTaskCompletion (task) {
+    taskList.push(completedTaskList.splice(completedTaskList.indexOf(task), 1)[0]);
+    sortTasks();
+};
+
 function addProject (project) {
     projectList.push(project);
     sortProjects();
@@ -69,6 +74,14 @@ function editProject (oldProject, project) {
     });
     sortProjects();
 };
+
+function deleteProject (project) {
+    console.log("Project deleted: " + project)
+}
+
+function sortTasks () {
+    taskList.sort((a, b) => compareDesc(parseISO(b.date), parseISO(a.date)));
+}
 
 function sortProjects () {
     projectList.sort();
@@ -92,4 +105,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, completeTask, shareTaskList, shareCompletedTaskList, addProject, editProject, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, shareProjectList };
