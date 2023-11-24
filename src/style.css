@@ -226,9 +226,20 @@ body {
     color: var(--color-surface-600);
 }
 
+.task-card.add {
+    color: var(--color-surface-600);
+    border: none;
+    margin-top: 5px;
+    font-style: italic;
+}
 
+.task-content.add {
+    cursor: pointer;
+}
 
-
+.task-circle.add {
+    opacity: 60%;
+}
 
 
 

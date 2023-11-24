@@ -1,5 +1,6 @@
 import "./style.css";
-import { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, deleteCompletedTask, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList } from "./tasks.js";
+import { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, deleteCompletedTask, shareTaskList, shareCompletedTaskList, 
+    addProject, editProject, deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList } from "./tasks.js";
 import { helloDom, buildDom } from "./dom.js";
 
 console.log("index.js loaded");
@@ -75,7 +76,17 @@ function getProjects () {
     return shareProjectList();
 }
 
-
-
-
-export { addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, undoTaskCompletionHandler, deleteCompletedTaskHandler, getTasks, getCompleted, addProjectHandler, editProjectHandler, deleteProjectHandler, deleteProjectTasksHandler, moveProjectTasksHandler, getProjects };
+export { addTaskHandler, 
+    deleteTaskHandler, 
+    editTaskHandler, 
+    completeTaskHandler, 
+    undoTaskCompletionHandler, 
+    deleteCompletedTaskHandler, 
+    getTasks, 
+    getCompleted, 
+    addProjectHandler, 
+    editProjectHandler, 
+    deleteProjectHandler, 
+    deleteProjectTasksHandler, 
+    moveProjectTasksHandler, 
+    getProjects };

@@ -6,6 +6,7 @@ import Options from "./images/options.svg";
 import Dew from "./images/dew.png";
 import Circle from "./images/circle.svg";
 import Undo from "./images/undo.svg";
+import PlusCircle from "./images/plus-circle.svg"
 const { format, parseISO } = require('date-fns');
 
 
@@ -135,7 +136,6 @@ function buildDom () {
             dateEditInput.classList.add("date-edit-input");
             dateEditInput.value = task.date;
 
-
             const deleteButton = document.createElement("img");
             deleteButton.classList.add("action-icon", "delete-button");
             deleteButton.src = Delete;
@@ -164,6 +164,34 @@ function buildDom () {
 
 
           });
+
+          // "ADD TASK" task card
+
+          addTaskCard();
+
+          function addTaskCard () {
+            const taskCard = document.createElement("div");
+            taskCard.classList.add("task-card", "add");
+            taskCard.addEventListener('click', () => {
+                buildAddTaskModal();
+            })
+            
+            const taskContent = document.createElement("div");
+            taskContent.classList.add("task-content", "add");
+
+            const taskAdd = document.createElement("img");
+            taskAdd.classList.add("action-icon", "task-circle", "add");
+            taskAdd.src = PlusCircle;
+
+            const taskLabel = document.createElement("div");
+            taskLabel.textContent = "Add task...";
+            taskLabel.classList.add("task-label", "add");
+
+            taskContent.appendChild(taskAdd);
+            taskContent.appendChild(taskLabel);
+            taskCard.appendChild(taskContent);
+            projectCard.appendChild(taskCard);
+        }
 
           // PROJECT CARD COMPLETED TASK FOOTER
          
@@ -621,6 +649,7 @@ function editProjectModal (project) {
     createButton.textContent = "Save";
 
     const projectField = document.querySelector("#project");
+    projectField.value = project;
     projectField.focus();
 
     createButton.addEventListener("click", () => { 
