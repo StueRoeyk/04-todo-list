@@ -1,4 +1,4 @@
-import { getTasks, getCompleted, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, undoTaskCompletionHandler, addProjectHandler, editProjectHandler, deleteProjectHandler } from "./index.js";
+import { getTasks, getCompleted, getProjects, addTaskHandler, deleteTaskHandler, editTaskHandler, completeTaskHandler, undoTaskCompletionHandler, deleteCompletedTaskHandler, addProjectHandler, editProjectHandler, deleteProjectHandler, deleteProjectTasksHandler, moveProjectTasksHandler } from "./index.js";
 import Delete from "./images/delete.svg";
 import DeleteGrey from "./images/delete-grey.svg"
 import Edit from "./images/edit.svg";
@@ -193,7 +193,7 @@ function buildDom () {
                 deleteButton.classList.add("action-icon", "delete-button");
                 deleteButton.src = DeleteGrey;
                 deleteButton.addEventListener('click', () => {
-                    console.log("Permanently delete!");
+                    deleteCompletedTaskHandler(task);
                 })
             
                 taskContent.appendChild(taskCircle);
@@ -329,9 +329,6 @@ function addModalFrame() {
 
     const modalInputDiv1 = document.createElement("div");
     modalInputDiv1.classList.add("modal-input-div");
-    
-    // POSSIBLE BREAKPOINT FOR "NEW PROJECT" FLOW
-    
     const modalInputDiv2 = document.createElement("div");
     modalInputDiv2.classList.add("modal-input-div");
     const modalInputDiv3 = document.createElement("div");
@@ -593,7 +590,7 @@ function editProjectModal (project) {
     const currentProjects = getProjects();
 
     const headerText = document.querySelector("#header-text");
-    headerText.textContent = "Edit project:";
+    headerText.textContent = "Edit project name:";
 
     const createButton = document.querySelector(".submit-button");
     createButton.textContent = "Save";
@@ -662,11 +659,19 @@ function deleteProjectModal (project) {
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("btn", "submit-button", "delete-warning");
     deleteButton.textContent = "Delete tasks";
+    deleteButton.addEventListener("click", () => {
+        deleteProjectTasksHandler(project);
+        closeModal();
+    })
     modalFooter.appendChild(deleteButton);
 
     const submitButton = document.createElement("button");
     submitButton.classList.add("btn", "submit-button");
     submitButton.textContent = "Move tasks";
+    submitButton.addEventListener("click", () => {
+        moveProjectTasksHandler(project);
+        closeModal();
+    })
     modalFooter.appendChild(submitButton);
     
     modalBody.appendChild(modalForm);

@@ -56,14 +56,16 @@ function undoTaskCompletion (task) {
     sortTasks();
 };
 
+function deleteCompletedTask (task) {
+    completedTaskList.splice(completedTaskList.indexOf(task), 1);
+}
+
 function addProject (project) {
     projectList.push(project);
     sortProjects();
 }
 
 function editProject (oldProject, project) {
-    console.log(oldProject + " is old name");
-    console.log(project + " is new name");
     projectList.splice(projectList.indexOf(oldProject), 1);
     addProject(project);
     taskList.forEach((task) => {
@@ -76,7 +78,28 @@ function editProject (oldProject, project) {
 };
 
 function deleteProject (project) {
-    console.log("Project deleted: " + project)
+    projectList.splice(projectList.indexOf(project), 1);
+}
+
+function deleteProjectTasks (project) {
+    taskList.forEach((task) => {
+        console.log(task.project);
+        if (task.project === project) {
+            deleteTask(task);
+        }
+    })
+    deleteProject(project);
+}
+
+function moveProjectTasks (project) {
+    console.log("tasks move: " + project);
+    taskList.forEach((task) => {
+        console.log(task.project);
+        if (task.project === project) {
+            task.project = "General Tasks";
+        }
+    })
+    deleteProject(project);
 }
 
 function sortTasks () {
@@ -105,4 +128,4 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, deleteCompletedTask, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList };
