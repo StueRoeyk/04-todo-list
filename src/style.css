@@ -183,6 +183,20 @@ body {
 
 }
 
+.date-edit-input {
+    display: none;
+}
+
+.date-edit-input.active {
+    display: block;
+    background-color: var(--color-surface-400); 
+    color: var(--color-better-white);
+    font-style: italic;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
 .task-menu {
     display: flex;
     align-items: center;
@@ -191,6 +205,10 @@ body {
 .date-label {
     font-style: italic;
     padding-right: 10px;
+}
+
+.date-label.active {
+    display: none;
 }
 
 .project-footer-box {

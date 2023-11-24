@@ -126,6 +126,15 @@ function buildDom () {
             const dateLabel = document.createElement("div");
             dateLabel.textContent = format(parseISO(task.date), 'MMM dd, yyyy');
             dateLabel.classList.add("date-label");
+            dateLabel.addEventListener('click', () => {
+                domDateEdit(task, dateLabel, dateEditInput);
+            })
+
+            const dateEditInput = document.createElement("input");
+            dateEditInput.type = "date";
+            dateEditInput.classList.add("date-edit-input");
+            dateEditInput.value = task.date;
+
 
             const deleteButton = document.createElement("img");
             deleteButton.classList.add("action-icon", "delete-button");
@@ -142,6 +151,7 @@ function buildDom () {
             })
 
             taskMenu.appendChild(dateLabel);
+            taskMenu.appendChild(dateEditInput);
             taskMenu.appendChild(deleteButton);
             taskMenu.appendChild(editButton);
 
@@ -233,15 +243,30 @@ function domTaskEdit(task, taskLabel, taskEditInput) {
     taskEditInput.focus();
 }
 
+function domDateEdit(task, dateLabel, dateEditInput) {
+    const oldTask = task;
+    const taskTask = task.task;
+    const project = task.project;
+    const date = task.date;
+    dateLabel.classList.add("active");
+    dateEditInput.classList.add("active");
+    dateEditInput.addEventListener('keypress', (event) => {
+        if (event.key === "Enter") {
+            dateEditInput.blur();
+        }
+    });
+    dateEditInput.addEventListener('focusout', () => {
+        dateLabel.classList.remove("active");
+        dateEditInput.classList.remove("active");
+        editTaskHandler(oldTask, taskTask, project, dateEditInput.value);
+    });
+    dateEditInput.focus();
+}
+
+
+
 // END ON-DOM EDITING
 
-// DEW logo
-
-/* const dewLogo = document.createElement("img");
-dewLogo.src = Dew;
-dewLogo.id = "dew-logo";
-menuBar.appendChild(dewLogo);
- */
 
 // ------ ADD TASK BUTTON
 

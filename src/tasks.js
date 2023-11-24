@@ -1,5 +1,4 @@
-import { buildDom } from "./dom";
-const { compareDesc, compareAsc, parse, parseISO } = require('date-fns');
+const { compareDesc, parseISO } = require('date-fns');
 
 const taskList = [];
 const completedTaskList = [];
@@ -10,7 +9,6 @@ class Task {
         this.task = task;
         this.project = project;
         this.date = date;
-        this.completed = false;
         //taskList.push(this);
     }
 }
@@ -69,7 +67,6 @@ function editProject (oldProject, project) {
     projectList.splice(projectList.indexOf(oldProject), 1);
     addProject(project);
     taskList.forEach((task) => {
-        console.log(task.project);
         if (task.project === oldProject) {
             task.project = project;
         }
@@ -83,7 +80,6 @@ function deleteProject (project) {
 
 function deleteProjectTasks (project) {
     taskList.forEach((task) => {
-        console.log(task.project);
         if (task.project === project) {
             deleteTask(task);
         }
@@ -92,9 +88,7 @@ function deleteProjectTasks (project) {
 }
 
 function moveProjectTasks (project) {
-    console.log("tasks move: " + project);
     taskList.forEach((task) => {
-        console.log(task.project);
         if (task.project === project) {
             task.project = "General Tasks";
         }
