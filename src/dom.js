@@ -173,7 +173,7 @@ function buildDom () {
             const taskCard = document.createElement("div");
             taskCard.classList.add("task-card", "add");
             taskCard.addEventListener('click', () => {
-                buildAddTaskModal();
+                buildAddTaskModal(project);
             })
             
             const taskContent = document.createElement("div");
@@ -328,9 +328,12 @@ menuBar.appendChild(addProjectButton);
 
 // ------- COMMANDS
 
-function buildAddTaskModal () {
+function buildAddTaskModal (project) {
     addModalFrame();
     addTaskModal();
+    if (project) {
+        preselectProject(project);
+    }
 }
 
 function buildEditTaskModal (task) {
@@ -488,6 +491,7 @@ function addTaskModal () {
     createButton.textContent = "Create";
 
     const taskField = document.querySelector("#task");
+    taskField.focus();
     const dateField = document.querySelector("#date");
     const projectField = document.querySelector("#project");
 
@@ -501,6 +505,15 @@ function addTaskModal () {
     })
 }
 // END ADD TASK MODAL
+
+// PRE-SELECT Project
+
+function preselectProject (project) {
+    const projectField = document.querySelector("#project");
+    projectField.value = project;
+
+}
+// END PRE-SELECT PROJECT
 
 // ------ EDIT TASK MODAL
 function editTaskModal(task) {
