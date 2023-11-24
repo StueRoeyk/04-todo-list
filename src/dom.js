@@ -7,7 +7,9 @@ import Dew from "./images/dew.png";
 import Circle from "./images/circle.svg";
 import Undo from "./images/undo.svg";
 import PlusCircle from "./images/plus-circle.svg"
-const { format, parseISO } = require('date-fns');
+import DewCircle from "./images/plus-circle-dew.svg"
+import LeafCircle from "./images/plus-circle-leaf.svg"
+const { format, isValid, parseISO } = require('date-fns');
 
 
 // Cache base DOM
@@ -264,9 +266,14 @@ function domTaskEdit(task, taskLabel, taskEditInput) {
         }
     });
     taskEditInput.addEventListener('focusout', () => {
-        taskLabel.classList.remove("active");
-        taskEditInput.classList.remove("active");
-        editTaskHandler(oldTask, taskEditInput.value, project, date);
+        if (taskEditInput.value === "") {
+            taskEditInput.value = task.task;
+            taskEditInput.focus();
+        } else {
+            taskLabel.classList.remove("active");
+            taskEditInput.classList.remove("active");
+            editTaskHandler(oldTask, taskEditInput.value, project, date);
+        }
     });
     taskEditInput.focus();
 }
@@ -284,9 +291,14 @@ function domDateEdit(task, dateLabel, dateEditInput) {
         }
     });
     dateEditInput.addEventListener('focusout', () => {
-        dateLabel.classList.remove("active");
-        dateEditInput.classList.remove("active");
-        editTaskHandler(oldTask, taskTask, project, dateEditInput.value);
+        if (!isValid(parseISO(dateEditInput.value))) {
+            dateEditInput.value = task.date;
+            dateEditInput.focus();
+        } else {        
+            dateLabel.classList.remove("active");
+            dateEditInput.classList.remove("active");
+            editTaskHandler(oldTask, taskTask, project, dateEditInput.value);
+        }
     });
     dateEditInput.focus();
 }
@@ -298,31 +310,47 @@ function domDateEdit(task, dateLabel, dateEditInput) {
 
 // ------ ADD TASK BUTTON
 
-const addTaskButton = document.createElement("input");
-addTaskButton.type = "button";
-addTaskButton.value = "+";
-addTaskButton.id = "add-task-button";
-
-addTaskButton.addEventListener('click', () => {
+const menuItem1 = document.createElement("div")
+menuItem1.classList.add("menu-item");
+menuBar.appendChild(menuItem1);
+menuItem1.addEventListener('click', () => {
     buildAddTaskModal();
 });
 
-menuBar.appendChild(addTaskButton);
+const addTaskButton = document.createElement("img");
+addTaskButton.id = "add-task-button";
+addTaskButton.src = DewCircle;
+
+menuItem1.appendChild(addTaskButton);
+
+const addTaskLabel = document.createElement("div")
+addTaskLabel.classList.add("menu-label", "dew");
+addTaskLabel.textContent = "Add task";
+
+menuItem1.appendChild(addTaskLabel);
 
 // END ADD TASK BUTTON
 
 // ------ ADD PROJECT BUTTON
 
-const addProjectButton = document.createElement("input");
-addProjectButton.type = "button";
-addProjectButton.value = "+";
-addProjectButton.id = "add-project-button";
-
-addProjectButton.addEventListener('click', () => {
+const menuItem2 = document.createElement("div")
+menuItem2.classList.add("menu-item");
+menuBar.appendChild(menuItem2);
+menuItem2.addEventListener('click', () => {
     buildAddProjectModal();
 });
 
-menuBar.appendChild(addProjectButton);
+const addProjectButton = document.createElement("img");
+addProjectButton.id = "add-project-button";
+addProjectButton.src = LeafCircle;
+
+menuItem2.appendChild(addProjectButton);
+
+const addProjectLabel = document.createElement("div")
+addProjectLabel.classList.add("menu-label", "leaf");
+addProjectLabel.textContent = "Add project";
+
+menuItem2.appendChild(addProjectLabel);
 
 // END ADD TASK BUTTON
 
@@ -353,7 +381,7 @@ function buildEditProjectModal (project) {
 
 
 
-// ------ BUILD GENERAL MODAL
+// ------ BUILD GENERA]L MODAL
 
 function addModalFrame() { 
     const modalHook = document.querySelector("#modal-hook");
@@ -399,6 +427,9 @@ function addModalFrame() {
     taskInput.type = 'text';
     taskInput.name = 'task';
     taskInput.id = 'task';
+    taskInput.addEventListener("focus", () => {
+        taskInput.classList.remove("invalid");
+    })
 
     modalInputDiv1.appendChild(label1);
     modalInputDiv1.appendChild(taskInput);
@@ -447,6 +478,9 @@ function addModalFrame() {
     dateSelect.name = "date";
     dateSelect.id = "date";
     dateSelect.value = new Date().toISOString().split('T')[0];
+    dateSelect.addEventListener("focus", () => {
+        dateSelect.classList.remove("invalid");
+    })
 
     modalInputDiv3.appendChild(label3);
     modalInputDiv3.appendChild(dateSelect);
@@ -496,8 +530,10 @@ function addTaskModal () {
     const projectField = document.querySelector("#project");
 
     createButton.addEventListener("click", () => { 
-        if (taskField.value === "" || projectField.value === "") {
-            console.log("Error");
+        if (taskField.value === "") { 
+            taskField.classList.add("invalid");
+        } else if (!isValid(parseISO(dateField.value))) {
+            dateField.classList.add("invalid");
         } else {
         addTaskHandler(taskField.value, projectField.value, dateField.value);
         closeModal();
@@ -526,8 +562,15 @@ function editTaskModal(task) {
     const editButton = document.querySelector(".submit-button");
     editButton.textContent = "Save";
     editButton.addEventListener('click', () => {
-        editTaskHandler(oldTask, taskField.value, projectField.value, dateField.value);
-        closeModal();
+        if (taskField.value === "") { 
+            taskField.classList.add("invalid");
+        } else if (!isValid(parseISO(dateField.value))) {
+            dateField.classList.add("invalid");
+        } else {
+            editTaskHandler(oldTask, taskField.value, projectField.value, dateField.value);
+            closeModal();
+        }
+        
     });
 
     const taskField = document.querySelector("#task");
