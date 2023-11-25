@@ -7,8 +7,6 @@ console.log("index.js loaded");
 helloTasks();
 helloDom();
 
-buildDom();
-
 const addTaskHandler = (task, project, date) => {
     addTask(task, project, date);
     buildDom();
@@ -75,6 +73,8 @@ const moveProjectTasksHandler = (project) => {
 function getProjects () {
     return shareProjectList();
 }
+
+buildDom();
 
 export { addTaskHandler, 
     deleteTaskHandler, 

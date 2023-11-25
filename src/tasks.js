@@ -1,8 +1,9 @@
+import { buildDom } from "./dom.js";
 const { compareDesc, parseISO } = require('date-fns');
 
-const taskList = [];
-const completedTaskList = [];
-const projectList = ["General Tasks", "Project 1", "Project 2"];
+let taskList = [];
+let completedTaskList = [];
+let projectList = [];
 
 class Task {
     constructor(task, project, date) {
@@ -11,6 +12,44 @@ class Task {
         this.date = date;
         //taskList.push(this);
     }
+}
+
+function storeTaskLocally () {
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+}
+
+function storeProjectLocally () {
+    console.log(projectList);
+    localStorage.setItem("projectList", JSON.stringify(projectList));
+}
+
+function storeCompletedLocally () {
+    localStorage.setItem("completedList", JSON.stringify(completedTaskList));
+}
+
+function retrieveLocalStorage() {
+    if ((window.localStorage.hasOwnProperty('taskList'))) {
+        taskList = JSON.parse(localStorage.getItem("taskList"));
+    }
+    if (window.localStorage.hasOwnProperty('projectList')) {
+        projectList = JSON.parse(localStorage.getItem("projectList"));
+    }
+    if (window.localStorage.hasOwnProperty('completedList')) {
+        completedTaskList = JSON.parse(localStorage.getItem("completedList"));
+    }
+}
+
+
+
+if (window.localStorage.length > 0) {
+    retrieveLocalStorage();
+} else {
+    addProject("General Tasks");
+    addProject("Project 1");
+    addProject("Project 2");
+    addTask("Buy groceries", "General Tasks", "2023-11-08");
+    addTask("Cook dinner",  "General Tasks", "2023-10-09");
+    addTask("Buy presents",  "Project 1", "2023-11-10");
 }
 
 function shareTaskList () {
@@ -29,38 +68,42 @@ function addTask (task, project, date) {
     const newTask = new Task(task, project, date);
     taskList.push(newTask);
     sortTasks();
+    storeTaskLocally();
 }
-
-addTask("Buy groceries", "General Tasks", "2023-11-08");
-addTask("Cook dinner",  "General Tasks", "2023-10-09");
-addTask("Buy presents",  "Project 1", "2023-11-10");
-
 
 function editTask (oldTask, task, project, date) {
     taskList.splice(taskList.indexOf(oldTask), 1);
     addTask(task, project, date);
+    storeTaskLocally();
 }
 
 function deleteTask (task) {
     taskList.splice(taskList.indexOf(task), 1);
+    storeTaskLocally();
 }
 
 function completeTask (task) {
     completedTaskList.push(taskList.splice(taskList.indexOf(task), 1)[0]);
+    storeTaskLocally();
+    storeCompletedLocally();
 }
 
 function undoTaskCompletion (task) {
     taskList.push(completedTaskList.splice(completedTaskList.indexOf(task), 1)[0]);
     sortTasks();
+    storeTaskLocally();
+    storeCompletedLocally();
 };
 
 function deleteCompletedTask (task) {
     completedTaskList.splice(completedTaskList.indexOf(task), 1);
+    storeCompletedLocally();
 }
 
 function addProject (project) {
     projectList.push(project);
     sortProjects();
+    storeProjectLocally();
 }
 
 function editProject (oldProject, project) {
@@ -72,10 +115,12 @@ function editProject (oldProject, project) {
         }
     });
     sortProjects();
+    storeProjectLocally();
 };
 
 function deleteProject (project) {
     projectList.splice(projectList.indexOf(project), 1);
+    storeProjectLocally();
 }
 
 function deleteProjectTasks (project) {
@@ -93,6 +138,7 @@ function moveProjectTasks (project) {
             task.project = "General Tasks";
         }
     })
+    storeTaskLocally();
     deleteProject(project);
 }
 
@@ -122,4 +168,6 @@ function helloTasks () {
     console.log("tasks.js loaded");
 }
 
-export { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, deleteCompletedTask, shareTaskList, shareCompletedTaskList, addProject, editProject, deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList };
+export { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, 
+    deleteCompletedTask, shareTaskList, shareCompletedTaskList, addProject, editProject, 
+    deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList };
