@@ -71,7 +71,6 @@ function buildDom () {
             editProjectButton.classList.add("project-dropdown-button");
             editProjectButton.textContent = "Edit";
             editProjectButton.addEventListener("click", () => {
-                console.log("Edit!")
                 buildEditProjectModal(project);
             });
 
@@ -410,6 +409,9 @@ function addModalFrame() {
     modalBody.classList.add("modal-body");
 
     const modalForm = document.createElement("form");
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+      });
 
     const modalInputDiv1 = document.createElement("div");
     modalInputDiv1.classList.add("modal-input-div");
@@ -619,9 +621,13 @@ function projectModal () {
     modalBody.classList.add("modal-body");
 
     const modalForm = document.createElement("form");
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+      });
 
     const modalInputDiv1 = document.createElement("div");
     modalInputDiv1.classList.add("modal-input-div");
+    modalInputDiv1.id = "project-modal-input";
     
     // PROJECT
     const label1 = document.createElement("label");
@@ -632,6 +638,9 @@ function projectModal () {
     projectInput.type = 'project';
     projectInput.name = 'project';
     projectInput.id = 'project';
+    projectInput.addEventListener("focus", () => {
+        projectInput.classList.remove("invalid");
+    })
 
     modalInputDiv1.appendChild(label1);
     modalInputDiv1.appendChild(projectInput);
@@ -675,14 +684,16 @@ function addProjectModal () {
     const createButton = document.querySelector(".submit-button");
     createButton.textContent = "Create";
 
+    const projectLabel = document.querySelector("#project-modal-input");
     const projectField = document.querySelector("#project");
     projectField.focus();
 
     createButton.addEventListener("click", () => { 
         if (projectField.value === "") {
-            console.log("Error");
+            projectField.classList.add("invalid");
         } else if (currentProjects.includes(projectField.value)) {
-            console.log("Cannot have duplicate project names");
+            projectField.classList.add("invalid");            
+            projectLabel.classList.add("duplicate");
         } else {
         addProjectHandler(projectField.value);
         closeModal();
@@ -704,15 +715,17 @@ function editProjectModal (project) {
     const createButton = document.querySelector(".submit-button");
     createButton.textContent = "Save";
 
+    const projectLabel = document.querySelector("#project-modal-input");
     const projectField = document.querySelector("#project");
     projectField.value = project;
     projectField.focus();
 
     createButton.addEventListener("click", () => { 
         if (projectField.value === "") {
-            console.log("Error");
+            projectField.classList.add("invalid");
         } else if (currentProjects.includes(projectField.value)) {
-            console.log("Cannot have duplicate project names");
+            projectField.classList.add("invalid");            
+            projectLabel.classList.add("duplicate");
         } else {
         editProjectHandler(oldProject, projectField.value);
         closeModal();
@@ -749,6 +762,9 @@ function deleteProjectModal (project) {
     modalBody.classList.add("modal-body");
 
     const modalForm = document.createElement("form");
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+      });
 
     const modalWarning1 = document.createElement("div");
     modalWarning1.classList.add("modal-warning-div");
