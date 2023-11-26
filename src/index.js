@@ -1,92 +1,104 @@
 import "./style.css";
-import { helloTasks, addTask, deleteTask, editTask, completeTask, undoTaskCompletion, deleteCompletedTask, shareTaskList, shareCompletedTaskList, 
-    addProject, editProject, deleteProject, deleteProjectTasks, moveProjectTasks, shareProjectList } from "./tasks.js";
-import { helloDom, buildDom } from "./dom.js";
-
-console.log("index.js loaded");
-helloTasks();
-helloDom();
+import {
+  addTask,
+  deleteTask,
+  editTask,
+  completeTask,
+  undoTaskCompletion,
+  deleteCompletedTask,
+  shareTaskList,
+  shareCompletedTaskList,
+  addProject,
+  editProject,
+  deleteProject,
+  deleteProjectTasks,
+  moveProjectTasks,
+  shareProjectList,
+} from "./tasks.js";
+import { buildDom } from "./dom.js";
 
 const addTaskHandler = (task, project, date) => {
-    addTask(task, project, date);
-    buildDom();
+  addTask(task, project, date);
+  buildDom();
 };
 
 const deleteTaskHandler = (task) => {
-    deleteTask(task);
-    buildDom();
+  deleteTask(task);
+  buildDom();
 };
 
 const editTaskHandler = (oldTask, task, project, date) => {
-    editTask(oldTask, task, project, date);
-    buildDom();
-}
+  editTask(oldTask, task, project, date);
+  buildDom();
+};
 
 const completeTaskHandler = (task) => {
-    completeTask(task);
-    buildDom();
-}
+  completeTask(task);
+  buildDom();
+};
 
 const undoTaskCompletionHandler = (task) => {
-    undoTaskCompletion(task);
-    buildDom();
-}
+  undoTaskCompletion(task);
+  buildDom();
+};
 
 const deleteCompletedTaskHandler = (task) => {
-    deleteCompletedTask(task);
-    buildDom();
+  deleteCompletedTask(task);
+  buildDom();
+};
+
+function getTasks() {
+  return shareTaskList();
 }
 
-function getTasks () {
-    return shareTaskList();
+function getCompleted() {
+  return shareCompletedTaskList();
 }
 
-function getCompleted () {
-    return shareCompletedTaskList();
+function addProjectHandler(project) {
+  addProject(project);
+  buildDom();
 }
 
-function addProjectHandler (project) {
-    addProject(project);
-    buildDom();
-}
-
-function editProjectHandler (oldProject, project) {
-    editProject(oldProject, project);
-    buildDom();
+function editProjectHandler(oldProject, project) {
+  editProject(oldProject, project);
+  buildDom();
 }
 
 const deleteProjectHandler = (project) => {
-    deleteProject(project);
-    buildDom();
-}
+  deleteProject(project);
+  buildDom();
+};
 
 const deleteProjectTasksHandler = (project) => {
-    deleteProjectTasks(project);
-    buildDom();
-}
+  deleteProjectTasks(project);
+  buildDom();
+};
 
 const moveProjectTasksHandler = (project) => {
-    moveProjectTasks(project);
-    buildDom();
-}
+  moveProjectTasks(project);
+  buildDom();
+};
 
-function getProjects () {
-    return shareProjectList();
+function getProjects() {
+  return shareProjectList();
 }
 
 buildDom();
 
-export { addTaskHandler, 
-    deleteTaskHandler, 
-    editTaskHandler, 
-    completeTaskHandler, 
-    undoTaskCompletionHandler, 
-    deleteCompletedTaskHandler, 
-    getTasks, 
-    getCompleted, 
-    addProjectHandler, 
-    editProjectHandler, 
-    deleteProjectHandler, 
-    deleteProjectTasksHandler, 
-    moveProjectTasksHandler, 
-    getProjects };
+export {
+  addTaskHandler,
+  deleteTaskHandler,
+  editTaskHandler,
+  completeTaskHandler,
+  undoTaskCompletionHandler,
+  deleteCompletedTaskHandler,
+  getTasks,
+  getCompleted,
+  addProjectHandler,
+  editProjectHandler,
+  deleteProjectHandler,
+  deleteProjectTasksHandler,
+  moveProjectTasksHandler,
+  getProjects,
+};

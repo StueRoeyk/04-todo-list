@@ -38,11 +38,11 @@ function buildDom() {
 
   window.onclick = function (event) {
     if (!event.target.matches(".project-options-button")) {
-      let dropdowns = document.getElementsByClassName(
+      const dropdowns = document.getElementsByClassName(
         "project-options-dropdown"
       );
       for (let i = 0; i < dropdowns.length; i++) {
-        let openDropdown = dropdowns[i];
+        const openDropdown = dropdowns[i];
         if (openDropdown.classList.contains("show")) {
           openDropdown.classList.remove("show");
         }
@@ -295,7 +295,6 @@ function domDateEdit(task, dateLabel, dateEditInput) {
   const oldTask = task;
   const taskTask = task.task;
   const project = task.project;
-  const date = task.date;
   dateLabel.classList.add("active");
   dateEditInput.classList.add("active");
   dateEditInput.addEventListener("keypress", (event) => {
